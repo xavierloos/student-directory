@@ -27,15 +27,15 @@ def print(students)
   puts "See = See all the students"
   puts "Search = Search a specific students per letter"
   puts "Shorter = Print the students whose name is shorter than 12 characters."
+  puts "Cohort = Print the students grouped by cohort."
   option = gets.chomp.capitalize
   case option
   when "See"
     #8.1 - Modify the program to print a number before the name of each student, e.g. "1. Dr. Hannibal Lecter" Hint: look into each.with_index()
     print_header
     students.each.with_index(1) do |student, index|
-      puts "\n#{index}. #{student[:name]} #{student[:cohort]} #{student[:hobbies]}"
+      puts "#{index}. #{student[:name]} #{student[:cohort]} #{student[:hobbies]}"
     end
-
     # 8.4 Rewrite the each() method that prints all students using while or until control flow methods (Loops).
     # st = students.length
     # while st > 0
@@ -61,8 +61,27 @@ def print(students)
         puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
       end
     end
+  when "Cohort"
+    #8.8 Once you complete the previous exercise, change the way the users are displayed: print them grouped by cohorts. To do this, you'll need to get a list of all existing cohorts (the map() method may be useful but it's not the only option), iterate over it and only print the students from that cohort.
+    puts "Group by cohort"
+    group = {}
+    students.each do |student|
+      cohort = student[:cohort]
+      name = student[:name]
+      if group[cohort] == nil
+        group[cohort] = []
+      end
+      group[cohort].push(name)
+    end
+    group.each do |key, value|
+      puts "COHORT: #{key}"
+      puts "STUDENT"
+      for name in value
+        puts "#{name}"
+      end
+    end
   else
-    puts "xs?"
+    puts "Nothing to show"
   end
 end
 
