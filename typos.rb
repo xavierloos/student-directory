@@ -17,9 +17,9 @@ students = [
 def print_header
   #We print the list of students
   puts "____________________________________________________"
+  # 8.6 Method center() of the String Use it in your code to make the output beautifully aligned.
   puts "The students of Makers Academy".center(50)
   puts "----------------------------------------------------"
-  puts "Index" + "Name".center(10) + "Cohort".center(10) + "Hobbies".center(10)
 end
 
 def print(students)
@@ -33,7 +33,7 @@ def print(students)
     #8.1 - Modify the program to print a number before the name of each student, e.g. "1. Dr. Hannibal Lecter" Hint: look into each.with_index()
     print_header
     students.each.with_index(1) do |student, index|
-      puts "#{index}.".center(5) + "#{student[:name]}".center(10) + "#{student[:cohort]}".center(10) + "#{student[:hobbies]}".center(10)
+      puts "\n#{index}. #{student[:name]} #{student[:cohort]} #{student[:hobbies]}"
     end
 
     # 8.4 Rewrite the each() method that prints all students using while or until control flow methods (Loops).
@@ -72,18 +72,27 @@ def print_footer(names)
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
   #create an empty array
   students = []
+  puts "* To finish, just hit return twice"
+  puts "Name"
   #get the fisrt name
   name = gets.chomp
+  #8.7 In the input_students method the cohort value is hard-coded. How can you ask for both the name and the cohort? What if one of the values is empty? Can you supply a default value? The input will be given to you as a string? How will you convert it to a symbol? What if the user makes a typo?
   #while the name is not empty repeat this code
+  puts "Cohort:"
+  cohort = gets.chomp.to_s
   while !name.empty?
+    if cohort == ""
+      cohort = "november".to_s
+    end
     #add the student hash to the array
-    students << { name: name, cohort: :november }
+    students << { name: name, cohort: cohort }
     puts "Now we have #{students.count} students"
+    puts "Name:"
     name = gets.chomp
+    puts "Cohort:"
+    cohort = gets.chomp.to_s
   end
   students
 end
