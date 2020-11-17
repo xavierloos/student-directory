@@ -107,7 +107,12 @@ def input_students
     end
     #add the student hash to the array
     students << { name: name, cohort: cohort }
-    puts "Now we have #{students.count} students"
+    # 8.9 Right now if we have only one student, the user will see a message "Now we have 1 students", whereas it should be "Now we have 1 student". How can you fix it so that it used singular form when appropriate and plural form otherwise?
+    if students.count > 1
+      puts "Now we have #{students.count} students"
+    else
+      puts "Now we have #{students.count} student"
+    end
     puts "Name:"
     name = gets.chomp
     puts "Cohort:"
