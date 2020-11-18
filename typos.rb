@@ -55,6 +55,7 @@ def input_students
     name = gets.chomp
   end
   #return the array of students
+
   students
 end
 
@@ -74,6 +75,10 @@ def print_footer(names)
 end
 
 students = input_students
-print_header
-print(students)
-print_footer(students)
+if !students.empty?
+  print_header
+  print(students)
+  print_footer(students)
+else
+  p "404 - No information found"
+end
