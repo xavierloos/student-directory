@@ -1,6 +1,7 @@
+@student = [] # an empty array accessible to all methods
 #Put all student into an array
 #8.5 Add more information: hobbies, country of birth, height, etc.
-students = [
+@students = [
   { name: "Dr. Hannibal Lecter", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
   { name: "Darth Vader", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
   { name: "Nurse Ratched", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
@@ -22,7 +23,7 @@ def print_header
   p "----------------------------------------------------"
 end
 
-def print(students)
+def print_students
   p "Options:"
   p "See = See all the students"
   p "Search = Search a specific students per letter"
@@ -33,7 +34,7 @@ def print(students)
   when "See"
     #8.1 - Modify the program to print a number before the name of each student, e.g. "1. Dr. Hannibal Lecter" Hint: look into each.with_index()
     print_header
-    students.each.with_index(1) do |student, index|
+    @students.each.with_index(1) do |student, index|
       p "#{index}. #{student[:name]} #{student[:cohort]} #{student[:hobbies]}"
     end
     # 8.4 Rewrite the each() method that prints all students using while or until control flow methods (Loops).
@@ -48,20 +49,20 @@ def print(students)
     p "Which letter whould you like to search for?"
     letter = gets.chomp
     p "We have some results with the letter: #{letter}"
-    students.each.with_index(1) do |student, index|
+    @students.each.with_index(1) do |student, index|
       p "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].include? letter
     end
   when "Shorter"
     #8.3 - Modify your program to only print the students whose name is shorter than 12 characters.
     p "We have some results with the name shorter than 12 characters"
-    students.each.with_index(1) do |student, index|
+    @students.each.with_index(1) do |student, index|
       p "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].size < 12
     end
   when "Cohort"
     #8.8 Once you complete the previous exercise, change the way the users are displayed: print them grouped by cohorts. To do this, you'll need to get a list of all existing cohorts (the map() method may be useful but it's not the only option), iterate over it and only print the students from that cohort.
     p "Group by cohort"
     group = {}
-    students.each do |student|
+    @students.each do |student|
       cohort = student[:cohort]
       name = student[:name]
       group[cohort] = [] if group[cohort] == nil
@@ -79,14 +80,14 @@ def print(students)
   end
 end
 
-def print_footer(names)
+def print_footer
   #We print the total number of students
-  p "Overall, we have #{names.count} great student"
+  p "____________________________________________________"
+  p "Overall, we have #{@students.count} great student"
+  p "----------------------------------------------------"
 end
 
 def input_students
-  #create an empty array
-  students = []
   p "* To finish, just hit return twice"
   p "Name"
   #get the fisrt name
@@ -98,9 +99,9 @@ def input_students
   while !name.empty?
     cohort = "november".to_s if cohort == ""
     #add the student hash to the array
-    students << { name: name, cohort: cohort }
+    @students << { name: name, cohort: cohort }
     # 8.9 Right now if we have only one student, the user will see a message "Now we have 1 students", whereas it should be "Now we have 1 student". How can you fix it so that it used singular form when appropriate and plural form otherwise?
-    students.count > 1 ? "Now we have #{students.count} students" : "Now we have #{students.count} student"
+    @students.count > 1 ? "Now we have #{@students.count} students" : "Now we have #{@students.count} student"
     #8.10 We've been using the chomp() method to get rid of the last return character. Find another method among those provided by the String class that could be used for the same purpose (although it will require passing some arguments).
     # Chomp vs Chop vs Strip: Another two methods that you may find helpful for cleaning user input are chop & strip.
     # With strip you can remove white spaces.
@@ -110,32 +111,44 @@ def input_students
     p "Cohort:"
     cohort = gets.chomp.to_s
   end
-  students
+  @students
 end
 
 def interactive_menu
-  students = []
   loop do
-    p "1. Input the students"
-    p "2. Show the students"
-    p "9. Exit"
-    selection = gets.chomp
-    case selection
-    when "1"
-      students = input_students
-    when "2"
-      print_header
-      print(students)
-      print_footer(students)
-    when "9"
-      exit
-    else
-      p "Try again"
-    end
+    print_menu
+    process(gets.chomp)
   end
 end
 
-#We call the methods
-students = input_students
-print(students)
-print_footer(students)
+def print_menu
+  p "------------------------------------"
+  p "|        *    MAIN MENU   *        |"
+  p "|       1. Input the students      |"
+  p "|        2. Show the students      |"
+  p "|              9. Exit             |"
+  p "------------------------------------"
+end
+
+def show_students
+  print_header
+  print_students
+  print_footer
+end
+
+def process(selection)
+  case selection
+  when "1"
+    @students = input_students
+  when "2"
+    print_header
+    print_students
+    print_footer
+  when "9"
+    exit
+  else
+    p "Try again"
+  end
+end
+
+interactive_menu
