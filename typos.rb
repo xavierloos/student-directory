@@ -113,8 +113,12 @@ def input_students
     else
       puts "Now we have #{students.count} student"
     end
+    #8.10 We've been using the chomp() method to get rid of the last return character. Find another method among those provided by the String class that could be used for the same purpose (although it will require passing some arguments).
+    # Chomp vs Chop vs Strip: Another two methods that you may find helpful for cleaning user input are chop & strip.
+    # With strip you can remove white spaces.
+    # With chop you’ll always remove the last character.
     puts "Name:"
-    name = gets.chomp
+    name = gets.strip
     puts "Cohort:"
     cohort = gets.chomp.to_s
   end
