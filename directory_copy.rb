@@ -1,66 +1,76 @@
-@student = [] # an empty array accessible to all methods
+@students = [] # an empty array accessible to all methods
 #Put all student into an array
 #8.5 Add more information: hobbies, country of birth, height, etc.
-@students = [
-  { name: "Dr. Hannibal Lecter", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "Darth Vader", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "Nurse Ratched", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "Michael Corleone", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "Alex DeLarge", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "The Wicked Witch of the West", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "Terminator", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "Freddy Krueger", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "The Joker", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "Joffrey Baratheon", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-  { name: "Norman Bates", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
-]
+# @students = [
+#   { name: "Dr. Hannibal Lecter", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "Darth Vader", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "Nurse Ratched", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "Michael Corleone", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "Alex DeLarge", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "The Wicked Witch of the West", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "Terminator", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "Freddy Krueger", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "The Joker", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "Joffrey Baratheon", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+#   { name: "Norman Bates", cohort: :november, hobbies: "Football", country: "Mexico", height: "169cm" },
+# ]
 
 def print_header
   #We print the list of students
-  p "____________________________________________________"
+  puts "____________________________________________________"
   # 8.6 Method center() of the String Use it in your code to make the output beautifully aligned.
-  p "The students of Makers Academy".center(50)
-  p "----------------------------------------------------"
+  puts "The students of Makers Academy".center(50)
+  puts "----------------------------------------------------"
 end
 
-def print_students
-  p "Options:"
-  p "See = See all the students"
-  p "Search = Search a specific students per letter"
-  p "Shorter = Print the students whose name is shorter than 12 characters."
-  p "Cohort = Print the students grouped by cohort."
+def students
+  if @students.size > 0
+    print_header
+    @students.each.with_index(1) do |student, index|
+      puts "#{index}. #{student[:name]}. Cohort: #{student[:cohort]}"
+    end
+    print_footer
+  else
+    puts "No students found, please (1) add students to the list or (2) see from a specific file"
+  end
+end
+
+def print_std
+  puts "Options:"
+  puts "See = See all the students"
+  puts "Search = Search a specific students per letter"
+  puts "Shorter = Print the students whose name is shorter than 12 characters."
+  puts "Cohort = Print the students grouped by cohort."
   option = STDIN.gets.chomp.capitalize
   case option
   when "See"
     #8.1 - Modify the program to print a number before the name of each student, e.g. "1. Dr. Hannibal Lecter" Hint: look into each.with_index()
     print_header
-    @students.each.with_index(1) do |student, index|
-      p "#{index}. #{student[:name]} #{student[:cohort]} #{student[:hobbies]}"
-    end
+    students
     # 8.4 Rewrite the each() method that prints all students using while or until control flow methods (Loops).
     # st = students.length
     # while st > 0
     #   student = students.
-    #   p "#{student[:name]} "
+    #   puts"#{student[:name]} "
     #   st -= 1
     # end
   when "Search"
     #8.2 - Modify your program to only print the students whose name begins with a specific letter.
-    p "Which letter whould you like to search for?"
+    puts "Which letter whould you like to search for?"
     letter = STDIN.gets.chomp
-    p "We have some results with the letter: #{letter}"
+    puts "We have some results with the letter: #{letter}"
     @students.each.with_index(1) do |student, index|
-      p "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].include? letter
+      puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].include? letter
     end
   when "Shorter"
     #8.3 - Modify your program to only print the students whose name is shorter than 12 characters.
-    p "We have some results with the name shorter than 12 characters"
+    puts "We have some results with the name shorter than 12 characters"
     @students.each.with_index(1) do |student, index|
-      p "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].size < 12
+      puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].size < 12
     end
   when "Cohort"
     #8.8 Once you complete the previous exercise, change the way the users are displayed: print them grouped by cohorts. To do this, you'll need to get a list of all existing cohorts (the map() method may be useful but it's not the only option), iterate over it and only print the students from that cohort.
-    p "Group by cohort"
+    puts "Group by cohort"
     group = {}
     @students.each do |student|
       cohort = student[:cohort]
@@ -69,32 +79,38 @@ def print_students
       group[cohort].push(name)
     end
     group.each do |key, value|
-      p "COHORT: #{key}"
-      p "STUDENT"
+      puts "COHORT: #{key}"
+      puts "STUDENT"
       for name in value
-        p "#{name}"
+        puts "#{name}"
       end
     end
   else
-    p "Nothing to show"
+    puts "Nothing to show"
   end
 end
 
 def print_footer
   #We print the total number of students
-  p "____________________________________________________"
-  p "Overall, we have #{@students.count} great student"
-  p "----------------------------------------------------"
+  if @students.count == 1
+    puts "____________________________________________________"
+    puts "Total: #{@students.count} student".center(50)
+    puts "----------------------------------------------------"
+  else
+    puts "____________________________________________________"
+    puts "Total: #{@students.count} students".center(50)
+    puts "----------------------------------------------------"
+  end
 end
 
 def input_students
-  p "* To finish, just hit return twice"
-  p "Name"
+  puts "* To finish, just hit return twice"
+  puts "Name"
   #get the fisrt name
   name = STDIN.gets.chomp
   #8.7 In the input_students method the cohort value is hard-coded. How can you ask for both the name and the cohort? What if one of the values is empty? Can you supply a default value? The input will be given to you as a string? How will you convert it to a symbol? What if the user makes a typo?
   #while the name is not empty repeat this code
-  p "Cohort:"
+  puts "Cohort:"
   cohort = STDIN.gets.chomp.to_s
   while !name.empty?
     cohort = "november".to_s if cohort == ""
@@ -106,9 +122,9 @@ def input_students
     # Chomp vs Chop vs Strip: Another two methods that you may find helpful for cleaning user input are chop & strip.
     # With strip you can remove white spaces.
     # With chop you’ll always remove the last character.
-    p "Name:"
+    puts "Name:"
     name = STDIN.gets.strip
-    p "Cohort:"
+    puts "Cohort:"
     cohort = STDIN.gets.chomp.to_s
   end
   @students
@@ -122,20 +138,20 @@ def interactive_menu
 end
 
 def print_menu
-  p "------------------------------------"
-  p "|        *    MAIN MENU   *        |"
-  p "|       1. Input the students      |"
-  p "|        2. Show the students      |"
-  p "|        3. Save the students      |"
-  p "|        4. Load the students      |"
-  p "|              9. Exit             |"
-  p "------------------------------------"
+  puts "------------------------------------"
+  puts "|        *    MAIN MENU   *        |"
+  puts "|                                  |"
+  puts "|        1. Add the students       |"
+  puts "|        2. Show the students      |"
+  puts "|        3. Save the students      |"
+  puts "|        4. See student files      |"
+  puts "|                                  |"
+  puts "|                         9. Exit  |"
+  puts "------------------------------------"
 end
 
 def show_students
-  print_header
-  print_students
-  print_footer
+  students
 end
 
 def process(selection)
@@ -143,9 +159,7 @@ def process(selection)
   when "1"
     @students = input_students
   when "2"
-    print_header
-    print_students
-    print_footer
+    students
   when "3"
     save_students
   when "4"
@@ -153,45 +167,83 @@ def process(selection)
   when "9"
     exit
   else
-    p "Try again"
+    puts "Try again"
   end
 end
 
 # 11.Saving the data to a file
 def save_students
-  # open the file for writing
-  file = File.open("students.csv", "w")
-  # Iterante over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
-  end
-  file.close
-  p "Students saved"
-end
-
-def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    @students << { name: name, cohort: cohort.to_sym }
-  end
-  file.close
-  p "Loading students"
-  p @students
-end
-
-def try_load_students
-  filename = ARGV.first #first arg from the command line
-  return if filename.nil? #get out of the method if it isn't given
-  if File.exists?(filename) #if it exist
-    load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
+  if @students.count == 0
+    puts "Students information not provided, please first (1) add some students"
+    interactive_menu
   else
-    puts "Sorry, #{filename} doesn't exist"
-    exit
+    puts "File name:"
+    file_name = STDIN.gets.chomp
+    file_name << ".csv"
+    # open the file for writing
+    file = File.open(file_name, "w")
+    # Iterante over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
+    file.close
+    puts "Students saved"
   end
 end
 
+def load_students(file_name = "")
+  files = []
+  for f in Dir.new(".")
+    files = files.push(f) if f.include? "csv"
+  end
+  if files.count == 0
+    puts "Files not found, please (3) save a new file"
+    interactive_menu
+  else
+    puts "Which file whould you like to see:"
+    puts "=> #{files}"
+    # Print all the files with the extentions CSV
+    file_name = gets.chomp
+    # Create an array to nest the files and the compare the names with the name provide by the user
+
+    # If the name provided is found in the array file will print the list of students
+    if files.include? file_name
+      file = File.open(file_name, "r")
+      file.readlines.each do |line|
+        name, cohort = line.chomp.split(",")
+        @students << { name: name, cohort: cohort.to_sym }
+
+        @students.each.with_index(1) do |student, index|
+          puts "____________________________________________________"
+          puts "The students of #{file_name}".center(50)
+          puts "----------------------------------------------------"
+          puts "#{index}. #{student[:name]} #{student[:cohort]}"
+          print_footer
+        end
+      end
+      file.close
+    else
+      puts "404 - File not found"
+      puts "Try again"
+      Dir.new(".").each { |file| puts file if file.include? "csv" }
+      file_name = STDIN.gets.chomp
+    end
+  end
+end
+
+# def try_load_students
+#   file_name = ARGV.first #first arg from the command line
+#   return if file_name.nil? #get out of the method if it isn't given
+#   if File.exists?(file_name) #if it exist
+#     load_students(file_name)
+#     puts"Loaded #{@students.count} from #{file_name}"
+#   else
+#     puts"Sorry, #{file_name} doesn't exist"
+#     exit
+#   end
+# end
+
+# try_load_students
 interactive_menu
