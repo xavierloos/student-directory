@@ -29,7 +29,7 @@ def print_students
   p "Search = Search a specific students per letter"
   p "Shorter = Print the students whose name is shorter than 12 characters."
   p "Cohort = Print the students grouped by cohort."
-  option = gets.chomp.capitalize
+  option = STDIN.gets.chomp.capitalize
   case option
   when "See"
     #8.1 - Modify the program to print a number before the name of each student, e.g. "1. Dr. Hannibal Lecter" Hint: look into each.with_index()
@@ -47,7 +47,7 @@ def print_students
   when "Search"
     #8.2 - Modify your program to only print the students whose name begins with a specific letter.
     p "Which letter whould you like to search for?"
-    letter = gets.chomp
+    letter = STDIN.gets.chomp
     p "We have some results with the letter: #{letter}"
     @students.each.with_index(1) do |student, index|
       p "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].include? letter
@@ -91,11 +91,11 @@ def input_students
   p "* To finish, just hit return twice"
   p "Name"
   #get the fisrt name
-  name = gets.chomp
+  name = STDIN.gets.chomp
   #8.7 In the input_students method the cohort value is hard-coded. How can you ask for both the name and the cohort? What if one of the values is empty? Can you supply a default value? The input will be given to you as a string? How will you convert it to a symbol? What if the user makes a typo?
   #while the name is not empty repeat this code
   p "Cohort:"
-  cohort = gets.chomp.to_s
+  cohort = STDIN.gets.chomp.to_s
   while !name.empty?
     cohort = "november".to_s if cohort == ""
     #add the student hash to the array
@@ -107,9 +107,9 @@ def input_students
     # With strip you can remove white spaces.
     # With chop you’ll always remove the last character.
     p "Name:"
-    name = gets.strip
+    name = STDIN.gets.strip
     p "Cohort:"
-    cohort = gets.chomp.to_s
+    cohort = STDIN.gets.chomp.to_s
   end
   @students
 end
@@ -117,7 +117,7 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -171,8 +171,8 @@ def save_students
   p "Students saved"
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
     @students << { name: name, cohort: cohort.to_sym }
@@ -180,6 +180,18 @@ def load_students
   file.close
   p "Loading students"
   p @students
+end
+
+def try_load_students
+  filename = ARGV.first #first arg from the command line
+  return if filename.nil? #get out of the method if it isn't given
+  if File.exists?(filename) #if it exist
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist"
+    exit
+  end
 end
 
 interactive_menu
