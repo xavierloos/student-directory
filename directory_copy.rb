@@ -127,6 +127,7 @@ def print_menu
   p "|       1. Input the students      |"
   p "|        2. Show the students      |"
   p "|        3. Save the students      |"
+  p "|        4. Load the students      |"
   p "|              9. Exit             |"
   p "------------------------------------"
 end
@@ -147,6 +148,8 @@ def process(selection)
     print_footer
   when "3"
     save_students
+  when "4"
+    load_students
   when "9"
     exit
   else
@@ -166,6 +169,17 @@ def save_students
   end
   file.close
   p "Students saved"
+end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, cohort = line.chomp.split(",")
+    @students << { name: name, cohort: cohort.to_sym }
+  end
+  file.close
+  p "Loading students"
+  p @students
 end
 
 interactive_menu
