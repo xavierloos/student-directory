@@ -126,6 +126,7 @@ def print_menu
   p "|        *    MAIN MENU   *        |"
   p "|       1. Input the students      |"
   p "|        2. Show the students      |"
+  p "|        3. Save the students      |"
   p "|              9. Exit             |"
   p "------------------------------------"
 end
@@ -144,11 +145,27 @@ def process(selection)
     print_header
     print_students
     print_footer
+  when "3"
+    save_students
   when "9"
     exit
   else
     p "Try again"
   end
+end
+
+# 11.Saving the data to a file
+def save_students
+  # open the file for writing
+  file = File.open("students.csv", "w")
+  # Iterante over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+  p "Students saved"
 end
 
 interactive_menu
