@@ -181,14 +181,17 @@ def save_students
     file_name = STDIN.gets.chomp
     file_name << ".csv"
     # open the file for writing
-    file = File.open(file_name, "w")
-    # Iterante over the array of students
-    @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+    # file = File.open(file_name, "w")
+
+    CSV.open(file_name, "w") do |csv|
+      # Iterante over the array of students
+      @students.each do |student|
+        csv << [student[:name], student[:cohort]]
+        # student_data = [student[:name], student[:cohort]]
+        # csv_line = student_data.join(",")
+        # file.puts csv_line
+      end
     end
-    file.close
     puts "Students saved"
   end
 end
